@@ -9,10 +9,12 @@ class BaseConfig:
     DEBUG = False
     TESTING = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # new
-    SECRET_KEY = 'my_precious'
+    SECRET_KEY = os.environ.get('SECRET_KEY')
     DEBUG_TB_ENABLED = False              # new
     DEBUG_TB_INTERCEPT_REDIRECTS = False  # new
     BCRYPT_LOG_ROUNDS = 13
+    TOKEN_EXPIRATION_DAYS = 30
+    TOKEN_EXPIRATION_SECONDS = 0
 
 
 class DevelopmentConfig(BaseConfig):
@@ -27,6 +29,8 @@ class TestingConfig(BaseConfig):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_TEST_URL')  # new
     BCRYPT_LOG_ROUNDS = 4
+    TOKEN_EXPIRATION_DAYS = 0
+    TOKEN_EXPIRATION_SECONDS = 3
 
 
 class ProductionConfig(BaseConfig):

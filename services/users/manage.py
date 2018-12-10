@@ -1,14 +1,24 @@
 # services/users/manage.py
 
-
-import unittest
 import coverage
-
+import unittest
 
 from flask.cli import FlaskGroup
 
 from project import create_app, db   # new
 from project.api.models import User  # new
+
+
+COV = coverage.coverage(
+    branch=True,
+    include='project/*',
+    omit=[
+        'project/tests/*',
+        'project/config.py',
+    ]
+)
+COV.start()
+
 
 app = create_app()  # new
 cli = FlaskGroup(create_app=create_app)  # new
@@ -22,30 +32,20 @@ def recreate_db():
 
 
 @cli.command()
-def test():
-    """ Runs the tests without code coverage"""
-    tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
-    result = unittest.TextTestRunner(verbosity=2).run(tests)
-    if result.wasSuccessful():
-        return 0
-    return 1
-
-@cli.command()
 def seed_db():
     """Seeds the database."""
-    db.session.add(User(username='michael', email="hermanmu@gmail.com"))
-    db.session.add(User(username='michaelherman', email="michael@mherman.org"))
+    db.session.add(User(
+        username='michael',
+        email='hermanmu@gmail.com',
+        password='greaterthaneight'
+    ))
+    db.session.add(User(
+        username='michaelherman',
+        email='michael@mherman.org',
+        password='greaterthaneight'
+    ))
     db.session.commit()
 
-COV = coverage.coverage(
-    branch=True,
-    include='project/*',
-    omit=[
-        'project/tests/*',
-        'project/config.py',
-    ]
-)
-COV.start()
 
 @cli.command()
 def cov():
@@ -62,6 +62,15 @@ def cov():
         return 0
     return 1
 
+
+@cli.command()
+def test():
+    """ Runs the tests without code coverage"""
+    tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
+    result = unittest.TextTestRunner(verbosity=2).run(tests)
+    if result.wasSuccessful():
+        return 0
+    return 1
 
 
 if __name__ == '__main__':
