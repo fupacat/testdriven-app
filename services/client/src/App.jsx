@@ -107,18 +107,9 @@ class App extends Component {
                 <br/>
                 <Switch>
                   <Route exact path='/' render={() => (
-                    <div>
-                      <h1 className="title is-1">All Users</h1>
-                      <hr/><br/>
-                      <AddUser
-                        username={this.state.username}
-                        email={this.state.email}
-                        addUser={this.addUser}
-                        handleChange={this.handleChange}
+                      <UsersList
+                        users={this.state.users}
                       />
-                      <hr/><br/>
-                      <UsersList users={this.state.users}/>
-                    </div>
                   )} />
                   <Route exact path='/register' render={() => (
                     <Form
