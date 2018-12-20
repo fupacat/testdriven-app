@@ -6,7 +6,6 @@ services:
     build:
       context: ./services/users
       dockerfile: Dockerfile-prod
-
     environment:
       - FLASK_ENV=production
       - APP_SETTINGS=project.config.ProductionConfig
