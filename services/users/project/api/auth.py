@@ -67,13 +67,17 @@ def login_user():
     try:
         # fetch the user data
         user = User.query.filter_by(email=email).first()
-        if user and bcrypt.check_password_hash(user.password, password):
-            auth_token = user.encode_auth_token(user.id)
-            if auth_token:
-                response_object['status'] = 'success'
-                response_object['message'] = 'Successfully logged in.'
-                response_object['auth_token'] = auth_token.decode()
-                return jsonify(response_object), 200
+        if user:
+            response_object['message'] = 'Password is incorrect'
+            if user and bcrypt.check_password_hash(user.password, password):
+                auth_token = user.encode_auth_token(user.id)
+                if auth_token:
+                    response_object['status'] = 'success'
+                    response_object['message'] = 'Successfully logged in.'
+                    response_object['auth_token'] = auth_token.decode()
+                    return jsonify(response_object), 200
+            else:
+                return jsonify(response_object), 401
         else:
             response_object['message'] = 'User does not exist.'
             return jsonify(response_object), 404
