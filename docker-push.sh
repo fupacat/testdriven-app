@@ -2,6 +2,13 @@
 
 if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]
 then
+
+  if [[ "$TRAVIS_BRANCH" == "staging" ]]; then
+    export DOCKER_ENV=stage
+  elif [[ "$TRAVIS_BRANCH" == "production" ]]; then
+    export DOCKER_ENV=prod
+  fi
+
   if [ "$TRAVIS_BRANCH" == "staging" ] || [ "$TRAVIS_BRANCH" == "production" ]
   then
     curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
