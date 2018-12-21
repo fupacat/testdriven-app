@@ -20,6 +20,7 @@ then
     export TAG=$TRAVIS_BRANCH
     export REPO=$AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com
   fi
+  
   if [ "$TRAVIS_BRANCH" == "staging" ] || [ "$TRAVIS_BRANCH" == "production" ]
   then
     # users
