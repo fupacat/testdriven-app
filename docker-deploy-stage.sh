@@ -33,7 +33,7 @@ $JQ '.taskDefinition.taskDefinitionArn'); then
 
     deploy_cluster() {
 
-      cluster="testdriven-staging-cluter"
+      cluster="testdriven-staging-cluster"
       # users
       service="testdriven-users-stage-service"
       template="ecs_users_stage_taskdefinition.json"
