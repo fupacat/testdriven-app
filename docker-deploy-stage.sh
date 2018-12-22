@@ -35,6 +35,7 @@ $JQ '.taskDefinition.taskDefinitionArn'); then
 
       cluster="testdriven-staging-cluter"
       # users
+      service="testdriven-users-stage-service"
       template="ecs_users_stage_taskdefinition.json"
       task_template=$(cat "ecs/$template")
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $AWS_ACCOUNT_ID)
@@ -43,6 +44,7 @@ $JQ '.taskDefinition.taskDefinitionArn'); then
       update_service
 
       # client
+      service="testdriven-client-stage-service"
       template="ecs_client_stage_taskdefinition.json"
       task_template=$(cat "ecs/$template")
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID)
@@ -51,6 +53,7 @@ $JQ '.taskDefinition.taskDefinitionArn'); then
       update_service
 
       # swagger
+      service="testdriven-swagger-stage-service"
       template="ecs_swagger_stage_taskdefinition.json"
       task_template=$(cat "ecs/$template")
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID)

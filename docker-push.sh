@@ -43,8 +43,11 @@ then
     docker tag $USERS_DB:$COMMIT $REPO/$USERS_DB:$TAG
     docker push $REPO/$USERS_DB:$TAG
     # client
+    docker pull $REPO/$CLIENT:builder-$TAG
     docker pull $REPO/$CLIENT:$TAG
-    docker build $CLIENT_REPO -t $CLIENT:$COMMIT -f Dockerfile-prod --build-arg REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL --cache-from $REPO/$CLIENT:$TAG
+    docker build $CLIENT_REPO -t $CLIENT:$COMMIT -f Dockerfile-prod --target builder --build-arg REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL --cache-from $REPO/$CLIENT:builder-$TAG
+    docker push $REPO/$CLIENT:builder-$TAG
+    docker build $CLIENT_REPO -t $CLIENT:$COMMIT -f Dockerfile-prod --target client --build-arg REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL --cache-from $REPO/$CLIENT:$TAG --cache-from $REPO/$CLIENT:builder-$TAG
     docker tag $CLIENT:$COMMIT $REPO/$CLIENT:$TAG
     docker push $REPO/$CLIENT:$TAG
     # swagger
