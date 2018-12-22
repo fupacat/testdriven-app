@@ -5,7 +5,6 @@ services:
       context: ./services/users
       dockerfile: Dockerfile-stage
       cache_from:
-        - cache_from:
           - 929568017084.dkr.ecr.us-east-1.amazonaws.com/test-driven-users:staging
     expose:
       - 5000
