@@ -4,6 +4,9 @@ services:
     build:
       context: ./services/users
       dockerfile: Dockerfile-stage
+      cache_from:
+        - cache_from:
+          - 929568017084.dkr.ecr.us-east-1.amazonaws.com/test-driven-users:staging
     expose:
       - 5000
     environment:
@@ -28,8 +31,6 @@ services:
     build:
       context: ./services/client
       dockerfile: Dockerfile-stage
-      cache_from:
-        - 929568017084.dkr.ecr.us-east-1.amazonaws.com/test-driven-client:staging
       args:
         - NODE_ENV=production
         - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
