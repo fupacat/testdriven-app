@@ -24,13 +24,23 @@ $JQ '.taskDefinition.taskDefinitionArn'); then
       fi
     }
 
+    update_service() {
+      if [[ $(aws ecs update-service --cluster $cluster --service $service --task-definition $revision | $JQ '.service.taskdefinition') != $revision ]]; then
+        echo "Error updating service."
+        return 1
+      fi
+    }
+
     deploy_cluster() {
+
+      cluster="testdriven-staging-cluter"
       # users
       template="ecs_users_stage_taskdefinition.json"
       task_template=$(cat "ecs/$template")
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $AWS_ACCOUNT_ID)
       echo "$task_def"
       register_definition
+      update_service
 
       # client
       template="ecs_client_stage_taskdefinition.json"
@@ -38,6 +48,7 @@ $JQ '.taskDefinition.taskDefinitionArn'); then
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID)
       echo "$task_def"
       register_definition
+      update_service
 
       # swagger
       template="ecs_swagger_stage_taskdefinition.json"
@@ -45,11 +56,12 @@ $JQ '.taskDefinition.taskDefinitionArn'); then
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID)
       echo "$task_def"
       register_definition
+      update_service
     }
 
     configure_aws_cli
     deploy_cluster
 
   fi
-  
+
 fi
