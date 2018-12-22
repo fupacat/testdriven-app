@@ -18,7 +18,7 @@ then
 
   if [ "$TRAVIS_BRANCH" == "staging" ] || [ "$TRAVIS_BRANCH" == "production" ]
   then
-    docker pull $REPO/$USERS:$TAG
+    # docker pull $REPO/$USERS:$TAG
     # # users
     # docker build $USERS_REPO -t $USERS:$COMMIT -f Dockerfile-prod
     # docker tag $USERS:$COMMIT $REPO/$USERS:$TAG
