@@ -5,7 +5,8 @@ services:
       context: ./services/users
       dockerfile: Dockerfile-stage
       cache_from:
-          - 929568017084.dkr.ecr.us-east-1.amazonaws.com/test-driven-users:staging
+          - 929568017084.dkr.ecr.us-east-1.amazonaws.com/test-driven-users:e2e
+    image: 929568017084.dkr.ecr.us-east-1.amazonaws.com/test-driven-users:e2e
     expose:
       - 5000
     environment:
@@ -25,14 +26,31 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+  builder:
+    container_name: builder
+    build:
+      context: ./services/client
+      dockerfile: Dockerfile-stage
+      target: builder
+      args:
+        - NODE_ENV=production
+        - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+      cache_from:
+          - 929568017084.dkr.ecr.us-east-1.amazonaws.com/test-driven-client:builder
+    image: 929568017084.dkr.ecr.us-east-1.amazonaws.com/test-driven-client:builder
   client:
     container_name: client
     build:
       context: ./services/client
       dockerfile: Dockerfile-stage
+      target: client
       args:
         - NODE_ENV=production
         - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+      cache_from:
+          - 929568017084.dkr.ecr.us-east-1.amazonaws.com/test-driven-client:builder
+          - 929568017084.dkr.ecr.us-east-1.amazonaws.com/test-driven-client:e2e
+    image: 929568017084.dkr.ecr.us-east-1.amazonaws.com/test-driven-client:e2e
     expose:
       - 80
     depends_on:
@@ -41,6 +59,9 @@ services:
     build:
       context: ./services/swagger
       dockerfile: Dockerfile-stage
+      cache_from:
+          - 929568017084.dkr.ecr.us-east-1.amazonaws.com/test-driven-swagger:e2e
+    image: 929568017084.dkr.ecr.us-east-1.amazonaws.com/test-driven-swagger:e2e
     expose:
       - 8080
     environment:

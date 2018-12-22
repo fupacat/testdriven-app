@@ -36,7 +36,7 @@ if [[ "${env}" == "development" ]]; then
   dev
 elif [[ "${env}" == "staging" ]]; then
   echo "Running e2e tests!"
-  docker-compose pull 929568017084.dkr.ecr.us-east-1.amazonaws.com/test-driven-users:staging
+  docker-compose -f docker-compose-stage.yml pull
   e2e stage
 elif [[ "${env}" == "production" ]]; then
   echo "Running e2e tests!"
