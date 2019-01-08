@@ -49,7 +49,7 @@ describe('Login', () => {
       .find('tbody > tr').last()
       .find('td').contains(username);
     cy.get('.navbar-burger').click();
-    cy.get('.navbar-menu').within() => {
+    cy.get('.navbar-menu').within(() => {
       cy
         .get('.navbar-item').contains('User Status')
         .get('.navbar-item').contains('Log Out')
@@ -76,10 +76,10 @@ describe('Login', () => {
     cy.get('p').contains('You are now logged out');
     cy.get('.navbar-menu').within(() => {
       cy
-      .get('.navbar-item').contains('User Status').should('not.be.visible')
-      .get('.navbar-item').contains('Log Out').should('not.be.visible')
-      .get('.navbar-item').contains('Log In')
-      .get('.navbar-item').contains('Register');
+        .get('.navbar-item').contains('User Status').should('not.be.visible')
+        .get('.navbar-item').contains('Log Out').should('not.be.visible')
+        .get('.navbar-item').contains('Log In')
+        .get('.navbar-item').contains('Register');
     });
 });
   it('should throw an error if the credentials are incorrect', () => {
