@@ -29,7 +29,7 @@ RUN npm run build
 #########
 
 # base image
-FROM nginx:1.15.0-alpine
+FROM nginx:1.15.0-alpine as client
 
 # new
 # update nginx conf
